@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up C compiler
-        uses: actions/setup-c@v3
+        uses: actions/setup-python@v4
         with:
           c-version: '11' # Choose your desired C version
 
