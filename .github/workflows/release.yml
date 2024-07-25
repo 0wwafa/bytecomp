@@ -5,6 +5,10 @@ on:
     tags:
       - 'v*'
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (e.g., v1.0.0)'
+        required: true
 
 permissions: write-all
 
@@ -16,13 +20,22 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-#    - name: Set up build environment
-#      run: |
-#        sudo apt-get update
-#        sudo apt-get install -y build-essential
+    - name: Set up build environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential
 
     - name: Compile program
       run: make
+
+    - name: Get the version
+      id: get_version
+      run: |
+        if [[ ${{ github.event_name }} == 'push' ]]; then
+          echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        else
+          echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+        fi
 
     - name: Create Release
       id: create_release
@@ -30,8 +43,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
+        tag_name: ${{ steps.get_version.outputs.VERSION }}
+        release_name: Release ${{ steps.get_version.outputs.VERSION }}
         draft: false
         prerelease: false
 
@@ -41,6 +54,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./bytecomp
-        asset_name: bytecomp
+        asset_path: ./your_program_name
+        asset_name: your_program_name
         asset_content_type: application/octet-stream
