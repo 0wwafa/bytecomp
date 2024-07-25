@@ -6,6 +6,8 @@ on:
       - 'v*' # Run workflow when a tag starting with 'v' is pushed
   workflow_dispatch:
 
+permissions: write-all
+
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
