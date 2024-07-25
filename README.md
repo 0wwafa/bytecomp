@@ -2,6 +2,7 @@
 ## Efficient Byte-Level File Comparison Utility
    
 <br/>
+
 **bytecomp** is a command-line utility that performs a byte-level comparison of two files and provides detailed statistics about their differences, including:
 
 - **Difference Percentage:** The percentage of bytes that differ between the two files.
