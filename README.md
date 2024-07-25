@@ -55,6 +55,4 @@ Entropy of file 2: 7.92
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-"
-content_copy
-Use code with caution.
+
